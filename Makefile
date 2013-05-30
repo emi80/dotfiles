@@ -19,6 +19,7 @@ vim-clean:
 	rm -Rf ~/.vim
 
 vim-init:
+	@mkdir -p $(CURDIR)/vim/colors/
 	ln -sf $(CURDIR)/tomorrow-theme/vim/colors/* $(CURDIR)/vim/colors/
 	ln -sf $(CURDIR)/vim ~/.vim
 	ln -sf ~/.vim/vimrc ~/.vimrc
