@@ -1,1 +1,3 @@
-shopt -s direxpand
+if [ `uname` != "Darwin" ];then
+    shopt -s direxpand
+fi
