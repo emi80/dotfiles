@@ -47,7 +47,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -72,6 +71,11 @@ fi
 
 if [ -f $HOME/.git-completion.bash ]; then
     . $HOME/.git-completion.bash
+fi
+
+if [ `uname` == "Darwin" ];then
+    . /usr/local/git/contrib/completion/git-completion.bash
+    . /usr/local/git/contrib/completion/git-prompt.sh
 fi
 
 
