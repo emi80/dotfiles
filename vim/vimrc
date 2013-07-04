@@ -116,7 +116,9 @@ set novisualbell
 set t_vb=
 set tm=500
 
-
+" Higlight current line
+set cursorline
+ 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
