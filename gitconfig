@@ -2,4 +2,13 @@
 	name = Emilio Palumbo
 	email = emiliopalumbo@gmail.com
 [push]
-	default = current
+    default = current
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    ls = ls-files
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
