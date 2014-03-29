@@ -4,3 +4,7 @@ ForwardX11 yes
 GSSAPIAuthentication no
 ServerAliveInterval 30
 ServerAliveCountMax 120
+
+# Host
+# HostName
+# User 
