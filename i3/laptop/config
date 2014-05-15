@@ -192,7 +192,7 @@ for_window [class="^Google-chrome$"] border none
 bar {
         #status_command i3status | dzen2 -fg white -ta r -w 1366 -fn "-misc-fixed-medium-r-normal--13-120-75-75-C-70-iso8859-1"
         #status_command i3status
-        status_command /home/emilio/conky-i3bar
+        status_command $HOME/.i3/conky-i3bar
         position top
         tray_output LVDS1
         font pango:Ubuntu Mono 14px
