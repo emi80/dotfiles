@@ -114,6 +114,8 @@ export GIT_EDITOR=$EDITOR
 export LC_CTYPE="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
+## disable gnome keyring
+unset GNOME_KEYRING_CONTROL
 
 ## load customizations
 if [ -d "$HOME/.bashrc.d" ] && [ "`ls -A $HOME/.bashrc.d`" ]; then
@@ -121,3 +123,5 @@ if [ -d "$HOME/.bashrc.d" ] && [ "`ls -A $HOME/.bashrc.d`" ]; then
         . $file
     done
 fi
+
+[[ -s /usr/local/bin/virtualenvwrapper.sh ]] && . /usr/local/bin/virtualenvwrapper.sh
