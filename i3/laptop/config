@@ -88,6 +88,9 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+# focus on mouse click (not hover)                                                                                                                                      
+focus_follows_mouse no
+
 # switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
