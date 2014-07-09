@@ -198,7 +198,7 @@ bar {
         status_command $HOME/.i3/conky-i3bar
         position top
         tray_output LVDS1
-        font pango:Ubuntu Mono 11
+        font pango:Ubuntu Mono, Icons 11
         colors{
             background #232323
             statusline #DCDCDC
@@ -223,4 +223,5 @@ bindsym $mod+Pause mode "$mode_system"
 # AUTOSTART
 exec --no-startup-id /home/emilio/git/xsettingsd/xsettingsd &
 exec --no-startup-id nm-applet &
+exec --no-startup-id dropboxd &
 exec --no-startup-id feh --bg-scale /home/emilio/Pictures/vladstudio_windypress_1920x1200_signed.jpg
