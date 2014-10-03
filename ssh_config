@@ -1,6 +1,7 @@
 ControlMaster auto
 ControlPath   ~/.ssh/tmp/%h_%p_%r
 ForwardX11 yes
+ForwardAgent yes
 GSSAPIAuthentication no
 ServerAliveInterval 30
 ServerAliveCountMax 120
