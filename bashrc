@@ -33,6 +33,8 @@ ltail() {
 } 
 
 # set prompt                                                                                                                                                                                                                                 
+
+
 prompt() {
   local BLACK="\[\033[0;30m\]"
   local BLACKBOLD="\[\033[1;30m\]"
@@ -53,11 +55,19 @@ prompt() {
   local NORMAL="\[\033[0m\]"
   local RESET="\[\017\]"
   
-  SMILEY="${WHITEBOLD}:)${NORMAL}"
-  FROWNY="${REDBOLD}:(${NORMAL}"
-  SELECT="if [ \$? = 0 ]; then echo \"${SMILEY}\"; else echo \"${FROWNY}\"; fi"
+  local SMILEY="${WHITEBOLD}:)${NORMAL}"
+  local FROWNY="${REDBOLD}:(${NORMAL}"
+  local SELECT="if [ \$? = 0 ]; then echo \"${SMILEY}\"; else echo \"${FROWNY}\"; fi"
+
+  __status() {
+    local OK="$2\xe2\x9c\x93$4"
+    local KO="$3\xe2\x9c\x97$4"
+    if [ $1 -eq 0 ]; then echo -e $OK; else echo -e $KO;fi
+  }
+
   
-  export PS1="${RESET}\u@\h \w${BLUEBOLD}\$(__git_ps1) ${NORMAL}> "
+  export PS1=$"${RESET}\u@\h \$(__status \$? \"${GREENBOLD}\" \"${REDBOLD}\" \"${NORMAL}\") ${YELLOWBOLD} \w${BLUEBOLD}\$(__git_ps1)${NORMAL} > "
+  #export PS1="${RESET}\u@\h \w${BLUEBOLD}\$(__git_ps1) ${NORMAL}> "
   #export PS1="${RESET}${YELLOWBOLD}\u@\h${NORMAL} \`${SELECT}\` ${YELLOWBOLD}\w\$(__git_ps1) >${NORMAL} "
   #export PS1="\n$BLACKBOLD[\t]$GREENBOLD \u@\h\[\033[00m\]:$BLUEBOLD\w\[\033[00m\] \\$ "  
   
