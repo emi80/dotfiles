@@ -77,8 +77,8 @@ TEXT
 {"full_text":"${endif}${endif}${endif}${endif}"},\
 {"full_text":"%","color":"\#EEEEEE","separator":false,"separator_block_width":6},\
 # Weather:
-{"full_text":"","color":"\#888888","separator":false,"separator_block_width":6},\
-{"full_text":"${execi 300 ~/weather_simple "EUR|UK|UK241|LONDON"}","color":"\#EEEEEE","separator":false,"separator_block_width":6},\
+#{"full_text":"","color":"\#888888","separator":false,"separator_block_width":6},\
+#{"full_text":"${execi 300 ~/weather_simple "EUR|UK|UK241|LONDON"}","color":"\#EEEEEE","separator":false,"separator_block_width":6},\
 #{"full_text":"${execi 300 ~/bin/weather_simple "EUR|UK|UK241|LONDON"}","color":"\#EEEEEE","separator":false,"separator_block_width":6},\
 # Mail:
 #{"full_text":"✉","color":"\#888888","separator":false,"separator_block_width":6},\
@@ -92,8 +92,13 @@ TEXT
 {"full_text":"","color":"\#888888","separator":false,"separator_block_width":6},\
 {"full_text":"${battery_percent BAT1}%","color":"\#EEEEEE","separator":false},\
 # Volume:
-{"full_text":"","color":"\#888888","separator":false,"separator_block_width":6},\
-{"full_text":"${execi 1 amixer sget Master,0 | egrep -o '([0-9]+%|\[(on|off)\])' | sed ':a;N;$!ba;s/\n/ /g'}","color":"\#EEEEEE","separator":false},\
+{"full_text":"${execi 1 if [ `amixer sget Master,0 | egrep -o '([0-9]+%|\[(on|off)\])' | tail -1 | tr -d '\n'` == "[off]" ]; then echo ""; else echo "";fi}","color":"\#888888","separator":false,"separator_block_width":6},\
+{"full_text":"${execi 1 amixer sget Master,0 | egrep -o '([0-9]+%|\[(on|off)\])' | sed ':a;N;$!ba;s/\n/ /g' | cut -d" " -f 1 }","color":"\#EEEEEE","separator":false},\
+# Keyboard:                                                                                                                                                             
+#{"full_text":"","color":"\#888888","separator":false,"separator_block_width":6},\
+
+{"full_text":"","color":"\#888888","separator":false,"separator_block_width":6},\
+{"full_text":"${execi 1 if [ `xset -q|grep LED| awk '{ print $10 }'` -eq "00000000" ]; then echo "EN"; else echo "EN Intl";fi}","color":"\#EEEEEE","separator":false},\
 # Date:
 {"full_text":"","color":"\#888888","separator":false,"separator_block_width":6},\
 {"full_text":"${time %a %d/%m/%Y}","color":"\#EEEEEE","separator":false,"separator_block_width":6},\

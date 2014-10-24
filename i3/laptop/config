@@ -163,9 +163,9 @@ bindsym Control+Mod1+l exec i3-msg workspace 1 && i3lock -c 111111 -d -n
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
 
 # audio
-bindsym XF86AudioRaiseVolume exec amixer -D pulse -q sset Master 3%+ 
-bindsym XF86AudioLowerVolume exec amixer -D pulse -q sset Master 3%-
-bindsym XF86AudioMute exec amixer -D pulse -q sset Master toggle
+bindsym XF86AudioRaiseVolume exec amixer -q sset Master 3%+ 
+bindsym XF86AudioLowerVolume exec amixer -q sset Master 3%-
+bindsym XF86AudioMute exec amixer -q sset Master toggle
 # brightness
 bindsym XF86MonBrightnessDown exec xbacklight -10
 bindsym XF86MonBrightnessUp exec xbacklight +20
@@ -221,6 +221,7 @@ mode "$mode_system" {
 bindsym $mod+Pause mode "$mode_system"
 
 # AUTOSTART
+exec --no-startup-id setxkbmap -layout us,us -variant ,intl -option grp:shift_caps_toggle
 exec --no-startup-id /home/emilio/git/xsettingsd/xsettingsd &
 exec --no-startup-id nm-applet &
 exec --no-startup-id dropboxd &
