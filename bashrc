@@ -5,6 +5,67 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# useful functions
+
+function tlppid {
+    # Look up the parent of the given PID.
+    pid=${1:-$$}
+    stat=($(</proc/${pid}/stat))
+    ppid=${stat[3]}
+   
+    # /sbin/init always has a PID of 1, so if you reach that, the current PID is
+    # the top-level parent. Otherwise, keep looking.
+    if [[ ${ppid} -eq 1 ]] ; then
+        echo ${pid}
+    else
+        top_level_parent_pid ${ppid}
+    fi
+} 
+  
+# print last command executed
+getlast() { 
+    fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//';
+}                                                                                                                                                                                                                                            
+  
+# tail from a label
+ltail() {
+    awk -vlabel="$1" '$0~label{line=NR}line && NR>line{print}' "$2"
+} 
+
+# set prompt                                                                                                                                                                                                                                 
+prompt() {
+  local BLACK="\[\033[0;30m\]"
+  local BLACKBOLD="\[\033[1;30m\]"
+  local RED="\[\033[0;31m\]"
+  local REDBOLD="\[\033[1;31m\]"
+  local GREEN="\[\033[0;32m\]"
+  local GREENBOLD="\[\033[1;32m\]"
+  local YELLOW="\[\033[0;33m\]"
+  local YELLOWBOLD="\[\033[1;33m\]"
+  local BLUE="\[\033[0;34m\]"
+  local BLUEBOLD="\[\033[1;34m\]"
+  local PURPLE="\[\033[0;35m\]"
+  local PURPLEBOLD="\[\033[1;35m\]"
+  local CYAN="\[\033[0;36m\]"
+  local CYANBOLD="\[\033[1;36m\]"
+  local WHITE="\[\033[0;37m\]"
+  local WHITEBOLD="\[\033[1;37m\]"
+  local NORMAL="\[\033[0m\]"
+  local RESET="\[\017\]"
+  
+  SMILEY="${WHITEBOLD}:)${NORMAL}"
+  FROWNY="${REDBOLD}:(${NORMAL}"
+  SELECT="if [ \$? = 0 ]; then echo \"${SMILEY}\"; else echo \"${FROWNY}\"; fi"
+  
+  export PS1="${RESET}\u@\h \w${BLUEBOLD}\$(__git_ps1) ${NORMAL}> "
+  #export PS1="${RESET}${YELLOWBOLD}\u@\h${NORMAL} \`${SELECT}\` ${YELLOWBOLD}\w\$(__git_ps1) >${NORMAL} "
+  #export PS1="\n$BLACKBOLD[\t]$GREENBOLD \u@\h\[\033[00m\]:$BLUEBOLD\w\[\033[00m\] \\$ "  
+  
+}
+  
+################################################################################
+
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -15,25 +76,6 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -59,9 +101,10 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-#if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-#    . /etc/bash_completion
-#fi
+
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
 
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host " ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2)" scp sftp ssh
 
@@ -78,10 +121,8 @@ if [ `uname` == "Darwin" ];then
     . /usr/local/git/contrib/completion/git-prompt.sh
 fi
 
-
-
 ## The prompt
-PS1='[\u@\h \W]\[\033[1;34m\]$(__git_ps1)\[\033[00m\]\$ '
+prompt
 GIT_PS1_SHOWDIRTYSTATE=true
 
 ## terminal 
@@ -109,6 +150,7 @@ export ALTERNATE_EDITOR=vim
 export EDITOR='vim'
 export VISUAL=$EDITOR
 export GIT_EDITOR=$EDITOR
+export LESS="-R"
 
 ## language
 export LC_CTYPE="en_US.UTF-8"
