@@ -4,3 +4,6 @@
 [submodule "tomorrow-theme"]
 	path = tomorrow-theme
 	url = git://github.com/chriskempson/tomorrow-theme.git
+[submodule "vundle"]
+	path = vim/bundle/Vundle.vim
+	url = git://github.com/gmarik/Vundle.vim.git
