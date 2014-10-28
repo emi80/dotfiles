@@ -66,7 +66,7 @@ prompt() {
   }
 
   
-  export PS1=$"${RESET}\u@\h ${YELLOWBOLD}\w${BLUEBOLD}\$(__git_ps1) ${NORMAL}> "
+  export PS1=$"${RESET}\u@\h ${YELLOWBOLD}\W${BLUEBOLD}\$(__git_ps1)${NORMAL}> "
   #export PS1=$"${RESET}\u@\h \$(__status \$? \"${GREENBOLD}\" \"${REDBOLD}\" \"${NORMAL}\") ${YELLOWBOLD}\w${BLUEBOLD}\$(__git_ps1) ${NORMAL}> "
   #export PS1="${RESET}${YELLOWBOLD}\u@\h${NORMAL} \`${SELECT}\` ${YELLOWBOLD}\w\$(__git_ps1) >${NORMAL} "
   #export PS1="\n$BLACKBOLD[\t]$GREENBOLD \u@\h\[\033[00m\]:$BLUEBOLD\w\[\033[00m\] \\$ "  
