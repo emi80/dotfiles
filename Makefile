@@ -23,7 +23,8 @@ vim-init:
 	ln -sf $(CURDIR)/vim ~/.vim
 	ln -sf ~/.vim/vimrc ~/.vimrc
 	@vim +PluginInstall +qall
-	@[ `git -C vim/bundle/powerline/ log -1 --format=format:%h` == "491ac11" ] && git -C vim/bundle/powerline/powerline/ apply -v $(CURDIR)/patches/powerline.segment.patch
+	@if [ `git -C vim/bundle/powerline/ log -1 --format=format:%h` == "491ac11" ] && [ ! "`git -C vim/bundle/powerline/ diff`" ]; then git -C vim/bundle/powerline/powerline/ apply -v $(CURDIR)/patches/powerline.segment.patch; fi
+	@if [ `git -C vim/bundle/riv.vim/ log -1 --format=format:%h` == "91c0ebb" ] && [ ! "`git -C vim/bundle/riv.vim/ diff`" ]; then git -C vim/bundle/riv.vim/ apply -v $(CURDIR)/patches/riv.clickable.patch; fi
 
 vim: init vim-clean vim-init powerline
 	echo "Vim plugins initialized"

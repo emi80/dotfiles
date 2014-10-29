@@ -8,7 +8,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " My Plugins
-Bundle 'tpope/vim-sensible'
+Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'nanotech/jellybeans.vim'
@@ -18,8 +18,11 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'kien/ctrlp.vim'
-Plugin 'myusuf3/numbers.vim'
+"Plugin 'myusuf3/numbers.vim'
 Plugin 'godlygeek/tabular'
+Plugin 'Rykka/riv.vim'
+"Plugin 'Rykka/clickable.vim'
+Plugin 'Rykka/InstantRst'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -27,17 +30,17 @@ filetype plugin indent on    " required
 
 let mapleader=","
 
-set cursorline
+" set cursorline
 set expandtab
 set modelines=0
 set shiftwidth=2
 set clipboard=unnamed
 set synmaxcol=128
-set ttyscroll=10
+set ttyfast
 set encoding=utf-8
 set tabstop=2
 set nowrap
-set number
+" set number
 set expandtab
 set nowritebackup
 set noswapfile
