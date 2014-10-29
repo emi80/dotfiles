@@ -49,17 +49,28 @@ set smartcase
 " color Tomorrow-Night
 color jellybeans
 
-" NERDTree
+" NERDTree {{{
 nmap <leader>n :NERDTreeToggle<CR>
 let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore = ['tmp']
+let NERDTreeIgnore = ['tmp', '\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
+" }}}
 
-" CtrlP
+" CtrlP {{{
 nnoremap <silent> t :CtrlP<cr>
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_by_filename = 1
 let g:ctrlp_max_files = 600
 let g:ctrlp_max_depth = 5
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
+" }}}
+
+" Syntastic {{{
+let g:syntastic_python_flake8_args='--ignore=E501'
+let g:syntastic_ignore_files = ['.java$']
+" }}}
 
 " numbers
 nnoremap <silent> <F3> :NumbersToggle<CR>

@@ -1,5 +1,6 @@
 POWERLINE_PATH = vim/bundle/powerline
 BASHRCD_FILES = $(wildcard *.bashrcd)
+SHELL=bash
 
 .PHONY: bashrcd
 all: vim bash gitconfig
@@ -19,10 +20,10 @@ vim-clean:
 	rm -Rf ~/.vim
 
 vim-init:
-	@mkdir -p $(CURDIR)/vim/colors/
-	ln -sf $(CURDIR)/tomorrow-theme/vim/colors/* $(CURDIR)/vim/colors/
 	ln -sf $(CURDIR)/vim ~/.vim
 	ln -sf ~/.vim/vimrc ~/.vimrc
+	@vim +PluginInstall +qall
+	@[ `git -C vim/bundle/powerline/ log -1 --format=format:%h` == "491ac11" ] && git -C vim/bundle/powerline/powerline/ apply -v $(CURDIR)/patches/powerline.segment.patch
 
 vim: init vim-clean vim-init powerline
 	echo "Vim plugins initialized"
