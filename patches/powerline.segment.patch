@@ -1,0 +1,13 @@
+diff --git a/powerline/segment.py b/powerline/segment.py
+index edcda43..c806db2 100644
+--- a/powerline/segment.py
++++ b/powerline/segment.py
+@@ -59,7 +59,7 @@ def get_segment_key(merge, *args, **kwargs):
+ 
+ 
+ def get_function(data, segment):
+-	function_name = segment['function']
++	function_name = segment['name']
+ 	if '.' in function_name:
+ 		module, function_name = function_name.rpartition('.')[::2]
+ 	else:
