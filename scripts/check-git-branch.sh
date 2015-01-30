@@ -1,9 +1,15 @@
 #!/bin/sh
+set -e
+
 RED="\033[1;31m"
 GREEN="\033[1;32m"
 YELLOW="\033[1;33m"
 BLUE="\033[1;34m"
 NORMAL="\033[0m"
+
+if [ $# -eq 0 ];then
+    set -- $(git rev-parse --abbrev-ref HEAD)
+fi
 
 for b in $@; do
     LOCAL=$(git rev-parse $b@{0})
