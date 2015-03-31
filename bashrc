@@ -146,6 +146,7 @@ export TERM=xterm-256color
 ## default tweaks for mac os x
 if [ `uname` == 'Darwin' ]; then
     alias ls="ls -G"
+    alias l="ls -G"
     alias ll="ls -laG"
     export PATH=$PATH:~/Library/Python/2.7/bin
 fi
