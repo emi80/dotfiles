@@ -153,8 +153,8 @@ if [ `uname` == 'Linux' ]; then
 fi
 
 ## default path and library path
-export PATH=$HOME/usr/bin:$PATH
-export LD_LIBRARY_PATH=$HOME/usr/lib:$LD_LIBRARY_PATH
+export PATH=$HOME/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
 
 ## configure editor
 export ALTERNATE_EDITOR=vim
@@ -178,3 +178,5 @@ if [ -d "$HOME/.bashrc.d" ] && [ "`ls -A $HOME/.bashrc.d`" ]; then
 fi
 
 [[ -s /usr/local/bin/virtualenvwrapper.sh ]] && . /usr/local/bin/virtualenvwrapper.sh
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
