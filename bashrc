@@ -126,9 +126,14 @@ if [ -f $HOME/.git-completion.bash ]; then
     . $HOME/.git-completion.bash
 fi
 
-if [ `uname` == "Darwin" ];then
-    . /usr/local/git/contrib/completion/git-completion.bash
-    . /usr/local/git/contrib/completion/git-prompt.sh
+if [ $(uname) == "Darwin" ];then
+    if [ $(uname -r) == "14.1.1" ];then 
+        . /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+        . /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+    else
+       . /usr/local/git/contrib/completion/git-completion.bash
+       . /usr/local/git/contrib/completion/git-prompt.sh
+    fi
 fi
 
 ## The prompt
