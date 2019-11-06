@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -e
+set -u
+
+device_connected() {
+    DEVICE=$1
+    VALUE=$(bluetoothctl -- info $DEVICE | grep Connected | awk -F": " '$0=$2')
+    [ "$VALUE" == "yes" ]
+}
+
+device_toggle() {
+    DEVICE=$1
+    DEVICE_NAME=$(bluetoothctl -- devices | grep $DEVICE | cut -d' ' -f 3-)
+    if device_connected $DEVICE; then
+        bluetoothctl -- disconnect $DEVICE
+	notify "$DEVICE_NAME disconnected"
+    else
+        bluetoothctl -- connect $DEVICE
+	notify "$DEVICE_NAME connected"
+    fi
+}
+
+notify() {
+    MSG=$1
+    notify-send -i bluetooth -u normal -t 1500 -a BT "$MSG"
+}
+
+case "$1" in
+    on)
+        bluetoothctl -- power on
+	notify "Bluetooth ON"
+        ;;
+    off)
+        bluetoothctl -- power off
+	notify "Bluetooth OFF"
+        ;;
+    toggle)
+	DEVICE=$2
+        device_toggle $DEVICE
+        ;;
+    *)
+        echo "Usage: $0 {on|off|toggle}"
+        exit 2
+esac
+
+exit 0
+
