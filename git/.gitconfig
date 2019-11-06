@@ -1,0 +1,25 @@
+[user]
+    name = Emilio Palumbo
+    email = emiliopalumbo@gmail.com
+[commit]
+    template = ~/.gitmessage
+[push]
+    default = upstream
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    ls = ls-files
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+[filter "lfs"]
+    clean = git lfs clean -- %f
+    smudge = git lfs smudge --skip %f
+    process = git lfs filter-process --skip
+    required = true
+[branch]
+    autosetuprebase = always
+[core]
+    askpass = 
