@@ -3,6 +3,8 @@ mpd/.config/mpd/pid
 mpd/.config/mpd/playlists
 mpd/.config/mpd/state
 mpd/.config/mpd/sticker.sql
+ncmpcpp/.ncmpcpp/error.log
+ncmpcpp/.ncmpcpp/patterns.list
 vim/.vim/.netrwhist
 vim/.vim/autoload
 vim/.vim/plugged
