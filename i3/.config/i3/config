@@ -15,7 +15,7 @@ focus_follows_mouse no
 
 # Gaps settings
 
-for_window [class=".*"] border pixel 2
+for_window [class=".*"] border pixel 0
 
 gaps inner 5 
 
@@ -80,6 +80,7 @@ exec --no-startup-id dunst
 exec --no-startup-id xset s 300 # blank screen after N seconds of inactivity
 exec --no-startup-id xset +dpms # enable DPMS
 exec --no-startup-id xset dpms 600 600 0 # trigger display {standby, suspend, off} after N seconds of inactivity
+exec --no-startup-id xss-lock -l -- betterlockscreen -l dim
 
 #exec --no-startup-id xrandr --dpi 118
 #exec --no-startup-id autorandr --change
@@ -88,8 +89,13 @@ exec --no-startup-id xsettingsd
 exec --no-startup-id gnome-keyring-daemon -s --components=gpg,pkcs11,secrets,ssh
 
 exec --no-startup-id nm-applet
-exec --no-startup-id blueman-applet
+#exec --no-startup-id blueman-applet
 #exec --no-startup-id pa-applet
+exec --no-startup-id udiskie -2 -s
+
+exec --no-startup-id mpd
+exec --no-startup-id mpDris2
+bindsym $mod+Shift+m exec --no-startup-id pkill mpd && sleep 1 && mpd
 
 #exec_always --no-startup-id "sleep 1; $HOME/.config/polybar/launch.sh"
 
@@ -97,15 +103,58 @@ exec --no-startup-id wal -R
 
 exec --no-startup-id unclutter
 
+exec --no-startup-id sleep 1 && xset s activate
+
+# Screenshot
+# Multi-screen screenshots with scrot
+bindsym --release Print exec scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # All screens
+
+# OSX-like area selection screenshots
+bindsym --release Shift+Print exec scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/Pictures/screenshots && mv $f ~/Pictures/screenshots && xclip -selection clipboard -t image/png -i ~/Pictures/screenshots/`ls -1 -t ~/Pictures/screenshots | head -1`' # Area selection
+
+# Mpd
+bindsym $mod+p exec mpc toggle
+
+# Bluetooth mode
+#
+#bindsym $mod+b exec "bluetoothctl -- power on && notify-send -i bluetooth -u normal -t 1000 -a BT 'Bluetooth ON'"
+#bindsym $mod+Shift+b exec "bluetoothctl -- power off && notify-send -i bluetooth -u normal -t 1000 -a BT 'Bluetooth OFF'"
+#bindsym $mod+c exec "bluetoothctl -- connect $DEVICE && notify-send -i bluetooth -u normal -t 1000 -a BT 'Connect $DEVICE'"
+#bindsym $mod+Shift+d exec "bluetoothctl -- disconnect $DEVICE && notify-send -i bluetooth -u normal -t 1000 -a BT 'Disconnect $DEVICE'"
+
+set $AUSDOMM05 E8:07:BF:03:15:4B
+set $AUKEYEPB40 00:23:02:3F:01:CB
+set $mode_bt Bluetooth menu (o) on, (f) off, (c) connect
+mode "$mode_bt" {
+    bindsym o exec --no-startup-id bt on, mode "default"
+    bindsym f exec --no-startup-id bt off, mode "default"
+    bindsym c mode "$mode_bt_connect"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+b mode "$mode_bt"
+
+set $mode_bt_connect Connect Bluetooth device (1) Ausdom M05, (2) AUKEY EP-B40
+mode "$mode_bt_connect" {
+    bindsym 1 exec --no-startup-id bt toggle $AUSDOMM05, mode "default"
+    bindsym 2 exec --no-startup-id bt toggle $AUKEYEPB40, mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 # Toggle vpn
-bindsym $mod+Shift+V exec vpn.sh
+bindsym $mod+Shift+v exec vpn.sh
 
 # Lock and suspend
-bindsym Control+Mod1+l exec xset s activate
-bindsym $mod+Shift+s exec systemctl suspend
+bindsym Mod1+l exec --no-startup-id i3exit lock
 
 # start a terminal
-bindsym $mod+Return exec termite
+bindsym $mod+Return exec xst
+#bindsym $mod+r exec chromium 
+#bindsym $mod+m exec thunar 
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -120,8 +169,8 @@ bindsym $mod+d exec rofi -show drun -show-icons -nb "$fg" -nf "$bg" -sb "$bg" -s
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # do not disturb
-bindsym $mod+n exec notify-send "DUNST_COMMAND_RESUME"
-bindsym $mod+Shift+n exec notify-send "DUNST_COMMAND_PAUSE"
+bindsym $mod+n exec notify-send "DUNST_COMMAND_RESUME" && notify-send -t 900 "Resume notifications"
+bindsym $mod+Shift+n exec notify-send -t 900 "Pause notifications" && sleep 1 && notify-send "DUNST_COMMAND_PAUSE"
 
 # change focus
 bindsym $mod+j focus left
@@ -193,16 +242,16 @@ set $ws9 "9:"
 set $ws10 "10:"
 
 
-workspace $ws1 output DP-2-1 eDP-1
-workspace $ws2 output DP-2-1 eDP-1
-workspace $ws3 output DP-2-1 eDP-1
-workspace $ws4 output DP-2-1 eDP-1
-workspace $ws5 output DP-2-1 eDP-1
-workspace $ws6 output HDMI-1 DP-2-1 eDP-1
-workspace $ws7 output HDMI-1 DP-2-1 eDP-1
-workspace $ws8 output eDP-1
-workspace $ws9 output eDP-1
-workspace $ws10 output eDP-1
+workspace $ws1 output DP2-1 eDP1
+workspace $ws2 output DP2-1 eDP1
+workspace $ws3 output DP2-1 eDP1
+workspace $ws4 output DP2-1 eDP1
+workspace $ws5 output DP2-1 eDP1
+workspace $ws6 output DP1 HDMI1 DP2-1 eDP1
+workspace $ws7 output DP1 HDMI1 DP2-1 eDP1
+workspace $ws8 output eDP1
+workspace $ws9 output eDP1
+workspace $ws10 output eDP1
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -233,7 +282,22 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Delete mode "$mode_system"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -269,9 +333,12 @@ for_window [class="^.blueman-manager-wrapped$"] floating enable
 
 for_window [class="^[Mm]ailspring$"] move window to workspace $ws2
 for_window [class="^[Tt]ermite$"] move window to workspace $ws3; workspace $ws3; focus
+for_window [class="^xterm-256color$"] move window to workspace $ws3; workspace $ws3; focus
 for_window [class="^[Cc]ode$"] move window to workspace $ws4; workspace $ws4; focus
+for_window [class="^[Cc]ode - OSS$"] move window to workspace $ws4; workspace $ws4; focus
 for_window [class="^VSCodium$"] move window to workspace $ws4; workspace $ws4; focus
 for_window [class="^[Bb]rave-browser$"] move window to workspace $ws1; workspace $ws1; focus
+for_window [class="^[Cc]hromium$"] move window to workspace $ws1; workspace $ws1; focus
 
 # Enble media keys
 bindsym XF86AudioPlay exec mpc play
@@ -283,12 +350,20 @@ bindsym XF86AudioRaiseVolume exec amixer set Master 5%+
 bindsym XF86AudioLowerVolume exec amixer set Master 5%-
 bindsym XF86AudioMicMute exec amixer set Capture toggle
 
+# Brightness controll
+bindsym XF86MonBrightnessDown exec xbacklight -5%
+bindsym XF86MonBrightnessUp exec xbacklight +5%
+
+# rfkill
+#binsym XF86RFKill exec 
+
 # Set colors from Xresources
 # Change 'color7' and 'color2' to whatever colors you want i3 to use 
 # from the generated scheme.
 # NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
 # it fails to get colors from Xresources.
 set_from_resource $zero i3wm.color0 #f0f0f0
+set_from_resource $one i3wm.color1 #f0f0f0
 set_from_resource $two i3wm.color2 #f0f0f0
 set_from_resource $three i3wm.color3 #f0f0f0
 set_from_resource $bg i3wm.color4 #f0f0f0
@@ -307,6 +382,9 @@ client.background       $bg
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+	mode hide
+    	hidden_state hide
+    	modifier Shift+Mod1
 	#height 36
 	position top
 	tray_output primary
