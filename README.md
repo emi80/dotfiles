@@ -5,10 +5,10 @@ autorandr  > automatic display configuration
 dunst      > notification daemon
 git        > git config and aliases
 i3         > tiling window manager
-inputrc    > readline config
 mpd        > music player daemon config
 ncmpcpp    > mpd client config
 ranger     > file manager
+readline   > readline config
 redshift   > screen color temperature 
 rofi       > application launcher
 scripts    > some automation scripts
