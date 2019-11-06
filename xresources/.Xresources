@@ -1,0 +1,4 @@
+Xft.dpi: 	118
+st.font: 	Monospace:size=12
+st.termname: 	xterm-256color 
+st.bold_font:   1
