@@ -1,0 +1,12 @@
+configuration {
+	modi: "window,run,ssh,drun";
+	theme: "~/.cache/wal/colors-rofi-dark.rasi";
+	display-drun:    "App";
+	display-run:     "Execute";
+	display-ssh:     "SSH";
+	display-window:  "Window";
+	show-icons:      true;
+	//sidebar-mode:    true;
+	ssh-command: "{terminal} -e 'bash -ic \"{ssh-client} {host}\"'";
+	run-command: "bash -ic '{cmd} '";
+}
