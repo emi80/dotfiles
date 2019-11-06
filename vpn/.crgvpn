@@ -1,0 +1,4 @@
+host = vpn.crg.es
+port = 10000
+username = epalumbo
+trusted-cert = 3324d878fcba1e4f4438b5da8c7bb9582d205fe725c9819d545023c3f0deb5f8
