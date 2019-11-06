@@ -9,9 +9,9 @@ inputrc    > readline config
 mpd        > music player daemon config
 ncmpcpp    > mpd client config
 ranger     > file manager
+redshift   > screen color temperature 
 rofi       > application launcher
-ssh        > ssh-agent service config
-tmux       > terminal multiplexer
+scripts    > some automation scripts
 vim        > vim editor config
 vpn        > openfortivpn config
 wal        > wal config
