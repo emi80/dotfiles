@@ -1,3 +1,8 @@
+mpd/.config/mpd/database
+mpd/.config/mpd/pid
+mpd/.config/mpd/playlists
+mpd/.config/mpd/state
+mpd/.config/mpd/sticker.sql
 vim/.vim/.netrwhist
 vim/.vim/autoload
 vim/.vim/plugged
