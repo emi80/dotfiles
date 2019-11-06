@@ -1,0 +1,5 @@
+# Configure our fonts.
+Xft/Antialias 1
+Xft/HintStyle "hintslight"
+Xft/Hinting 1
+Xft/RGBA "rgb"
