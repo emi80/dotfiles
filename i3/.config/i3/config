@@ -95,7 +95,7 @@ exec --no-startup-id udiskie -2 -s
 
 exec --no-startup-id mpd
 exec --no-startup-id mpDris2
-bindsym $mod+Shift+m exec --no-startup-id pkill mpd && sleep 1 && mpd
+bindsym $mod+Shift+m exec --no-startup-id pkill mpd && sleep 1 && mpd || mpd
 
 #exec_always --no-startup-id "sleep 1; $HOME/.config/polybar/launch.sh"
 
