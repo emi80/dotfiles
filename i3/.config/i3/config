@@ -102,6 +102,7 @@ bindsym $mod+Shift+m exec --no-startup-id pkill mpd && sleep 1 && mpd
 exec --no-startup-id wal -R
 
 exec --no-startup-id unclutter
+exec --no-startup-id redshift
 
 exec --no-startup-id sleep 1 && xset s activate
 
