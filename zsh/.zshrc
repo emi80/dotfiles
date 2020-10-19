@@ -84,9 +84,19 @@ if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
 fi
 
 # env
+appendPath() {
+    if [ -d "$1" ]; then
+        export PATH="$1:$PATH"
+    fi
+}
+
+export EDITOR=vim
 export TERM=xterm-256color
-export PATH=$HOME/bin:$PATH
 export $(gnome-keyring-daemon -s)
+
+appendPath "$HOME/bin"
+appendPath "$HOME/go/bin"
+appendPath "$HOME/.cargo/bin"
 
 # keys
 bindkey "^[[1;5C" forward-word
@@ -119,3 +129,5 @@ bindkey "^[[3~" delete-char
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# added by travis gem
+[ ! -s /home/emilio/.travis/travis.sh ] || source /home/emilio/.travis/travis.sh
