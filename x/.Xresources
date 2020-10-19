@@ -1,4 +1,31 @@
-Xft.dpi: 	118
-st.font: 	Monospace:size=12
-st.termname: 	xterm-256color 
-st.bold_font:   1
+#include ".colors/dremora"
+
+Xft.lcdfilter                : lcddefault
+Xft.hintstyle                : hintslight
+Xft.hinting                  : 1
+Xft.autohint                 : 1
+Xft.antialias                : 1
+Xft.dpi                      : 118
+Xft.rgba                     : rgb
+
+Xcursor.theme                : Vanilla-DMZ-AA
+
+URxvt.font                   : xft:Droid Sans Mono for Powerline:regular:size=11
+URxvt.boldFont               : xft:Droid Sans Mono for Powerline:regular:size=11
+URxvt.letterSpace	     : -1
+URxvt.depth                  : 24
+URxvt.scrollBar              : false
+URxvt.buffered               : true
+URxvt.iso14755               : false
+URxvt.perl-ext-common        : default,tabbedex
+URxvt.tabbed.tabbar-fg       : 8
+URxvt.tabbed.tabbar-bg       : 0
+URxvt.tabbed.tab-fg          : 15
+URxvt.tabbed.tab-bg          : 0
+URxvt.tabbed.autohide        : true
+URXvt.tabbed.reopen-on-close : yes
+URxvt.perl-ext               : default,url-select
+URxvt.keysym.C-i             : perl:url-select:select_next
+URxvt.url-select.launcher    : /usr/bin/firefox
+URxvt.url-select.underline   : true
+URxvt.colorUL                : #78A4FF

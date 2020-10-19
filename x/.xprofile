@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ $XDG_SESSION_DESKTOP == "awesome" ]; then
+ # keyboard
+ setxkbmap -layout us
+ setxkbmap -option eurosign:5
+ setxkbmap -option compose:ralt
+
+ xrdb -merge ~/.Xresources
+ compton &
+ xinput set-prop 12 306 1
+ xinput set-prop 12 333 0 1
+ xsettingsd &
+ xss-lock -l -- ~/bin/lock.sh &
+fi
