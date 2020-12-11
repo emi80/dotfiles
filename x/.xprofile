@@ -7,8 +7,10 @@ if [ $XDG_SESSION_DESKTOP == "awesome" ]; then
 
  xrdb -merge ~/.Xresources
  compton &
- xinput set-prop 12 306 1
- xinput set-prop 12 333 0 1
+ # Natural Scrolling Enabled (old 306)
+ xinput set-prop 12 314 1
+ # Click Method Enabled
+ xinput set-prop 12 341 0 1
  xsettingsd &
  xss-lock -l -- ~/bin/lock.sh &
 fi
