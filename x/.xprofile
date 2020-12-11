@@ -13,4 +13,5 @@ if [ $XDG_SESSION_DESKTOP == "awesome" ]; then
  xinput set-prop 12 341 0 1
  xsettingsd &
  xss-lock -l -- ~/bin/lock.sh &
+ redshift &
 fi
