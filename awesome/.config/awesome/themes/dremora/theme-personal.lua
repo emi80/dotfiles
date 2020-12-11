@@ -72,7 +72,7 @@ theme.titlebar_maximized_button_normal_active   = theme.dir .. "/icons/titlebar/
 theme.titlebar_maximized_button_focus_inactive  = theme.dir .. "/icons/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/maximized_normal_inactive.png"
 
-awful.util.tagnames   = { "\u{f0ac}", "\u{f086}", "\u{f120}", "\u{f121}", "\u{f590}" }
+awful.util.tagnames   = { "\u{f0ac}", "\u{f086}", "\u{f120}", "\u{f121}", "\u{f590}", "\u{f21b}", "\u{f108}",  "\u{f108}",  "\u{f108}" }
 
 local markup     = lain.util.markup
 local separators = lain.util.separators
@@ -205,7 +205,16 @@ function theme.at_screen_connect(s)
     gears.wallpaper.maximized(wallpaper, s, true)
 
     -- Tags
-    awful.tag(awful.util.tagnames, s, awful.layout.layouts[2])
+    if s.index == 1 then
+	--local tags = awful.util.tagnames
+	local tags = {table.unpack(awful.util.tagnames,1,6)}
+    	awful.tag(tags, s, awful.layout.layouts[2])
+    	tags = root.tags()
+    	tags[2].layout = awful.layout.suit.max
+    elseif s.index == 2 then
+	local tags = {table.unpack(awful.util.tagnames,7,9)}
+	awful.tag(tags, s, awful.layout.layouts[2])
+    end
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()

@@ -57,7 +57,7 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "urxvtd", "unclutter -root", "nm-applet", "blueman-applet", "pasystray", "xfce4-power-manager", "ulauncher --hide-window", "/usr/lib/firefox/firefox", "ferdi" }) -- entries must be separated by commas
+run_once({ "urxvtd", "unclutter -root", "nm-applet", "blueman-applet", "pasystray", "xfce4-power-manager", "ulauncher --hide-window", "/usr/lib/firefox/firefox", "slack" }) -- entries must be separated by commas
 
 -- This function implements the XDG autostart specification
 --[[
@@ -98,18 +98,18 @@ local browser      = os.getenv("BROWSER") or "firefox"
 local scrlocker    = "xset s activate"
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "1", "2", "3", "4", "5" }
+awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
+    awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max,
+    awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
@@ -335,7 +335,7 @@ globalkeys = my_table.join(
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
-    awful.key({ modkey,           }, "Tab",
+    awful.key({ modkey, "Shift"   }, "Tab",
         function ()
             if cycle_prev then
                 awful.client.focus.history.previous()
@@ -347,7 +347,7 @@ globalkeys = my_table.join(
             end
         end,
         {description = "cycle with previous/go back", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "Tab",
+    awful.key({ modkey,           }, "Tab",
         function ()
             if cycle_prev then
                 awful.client.focus.byidx(1)
@@ -703,17 +703,17 @@ awful.rules.rules = {
     { rule = { class = "Gimp", role = "gimp-image-window" },
       properties = { maximized = true } },
 
-    { rule = { class = "Ferdi" },
+    { rule_any = { class = { "Ferdi", "Slack", "Discord" } },
       properties = { screen = 1, tag = awful.util.tagnames[2] } },
 
     { rule = { class = "zoom" },
-      properties = { screen = 1, tag = awful.util.tagnames[#awful.util.tagnames] } },
+      properties = { screen = 1, tag = awful.util.tagnames[5] } },
 
     { rule = { class = "zoom", name = "Video Preview" },
       properties = { switchtotag = true } },
 
     { rule = { class = "URxvt" },
-      properties = { screen = 1, tag = awful.util.tagnames[3], switchtotag = true } },
+      properties = { tag = awful.util.tagnames[3], switchtotag = true } },
 
     { rule = { class = "Code" },
       properties = { screen = 1, tag = awful.util.tagnames[4], switchtotag = true } },
