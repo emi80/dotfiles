@@ -1,6 +1,7 @@
 [user]
     name = Emilio Palumbo
     email = emiliopalumbo@gmail.com
+	signingkey = A25415A0482F99EA8598D49E844AEA8FEBA95EDC
 [commit]
     template = ~/.gitmessage
 [push]
