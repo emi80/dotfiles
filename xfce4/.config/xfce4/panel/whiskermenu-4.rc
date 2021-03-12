@@ -1,5 +1,5 @@
 favorites=exo-web-browser.desktop,exo-mail-reader.desktop,exo-file-manager.desktop,exo-terminal-emulator.desktop
-recent=us.zoom.Zoom.desktop,slack.desktop,microsoft-edge-dev.desktop,org.chromium.Chromium.desktop,firefox.desktop,xfce4-settings-editor.desktop,exo-file-manager.desktop,com.system76.Popsicle.desktop,nitrogen.desktop
+recent=xfce4-settings-editor.desktop,firefox.desktop
 button-icon=/usr/share/pixmaps/pop.png
 button-single-row=false
 show-button-title=false
@@ -21,8 +21,8 @@ position-commands-alternate=false
 position-categories-alternate=true
 stay-on-focus-out=false
 confirm-session-command=true
-menu-width=648
-menu-height=422
+menu-width=450
+menu-height=500
 menu-opacity=100
 command-settings=xfce4-settings-manager
 show-command-settings=true
