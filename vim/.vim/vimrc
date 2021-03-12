@@ -26,5 +26,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'jamessan/vim-gnupg', { 'branch': 'main' }
 
 call plug#end()
