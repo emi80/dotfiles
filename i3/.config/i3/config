@@ -161,7 +161,7 @@ bindsym $mod+comma exec xfce4-settings-manager
 bindsym $mod+p move workspace to output right
 
 # Setup screen lock
-bindsym $mod+Escape exec xflock4
+bindsym $mod+Escape exec --no-startup-id xflock4
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
