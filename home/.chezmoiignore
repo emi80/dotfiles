@@ -1,0 +1,3 @@
+{{ if (ne (env "SHELL" | base) "zsh") -}}
+.zshrc
+{{- end }}
