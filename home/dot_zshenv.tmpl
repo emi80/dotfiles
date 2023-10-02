@@ -1,0 +1,25 @@
+export EDITOR=vi
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+export OCI_CLI_PROFILE=epalumbo
+export OCI_CLI_AUTH=api_key
+
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+{{ $brewPythonPath := "/opt/homebrew/opt/python/libexec/bin" }}
+{{- if stat $brewPythonPath -}}
+export PATH={{ $brewPythonPath }}:$PATH
+{{- end }}
+
+{{- $paths := list }}
+{{- $homeDir := .chezmoi.homeDir }}
+{{- range $_, $relPath := list "bin" ".cargo/bin" ".pixi/bin" ".local/bin" }}
+{{-   $path := joinPath $homeDir $relPath }}
+{{-   if stat $path }}
+{{-     $paths = mustAppend $paths $path }}
+{{-   end }}
+{{- end }}
+{{- if $paths }}
+export PATH={{ toStrings $paths | join ":" }}:$PATH
+{{- end }}
