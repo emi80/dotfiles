@@ -1,17 +1,9 @@
 {{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") -}}
 
-{{ $crates := list
-     "starship"
-     "dua" -}}
-
 #!/bin/bash
 
 set -eufo pipefail
 
 sh -c "$(curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs)" -- -y
-
-{{ range $crates }}
-  ~/.cargo/bin/cargo install {{ . }}
-{{ end }}
 
 {{ end -}}
