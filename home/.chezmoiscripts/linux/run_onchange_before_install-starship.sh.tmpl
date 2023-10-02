@@ -1,5 +1,9 @@
+{{ if eq .chezmoi.os "linux") -}}
+
 #!/bin/bash
 
 set -eufo pipefail
 
 sh -c "$(curl -sS https://starship.rs/install.sh)" -- -b ~/bin -y
+
+{{ end -}}

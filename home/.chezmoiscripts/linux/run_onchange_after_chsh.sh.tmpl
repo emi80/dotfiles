@@ -1,7 +1,9 @@
-{{ if not (hasPrefix "ant-login" .chezmoi.hostname) -}}
+{{ if and (eq .chezmoi.os "linux") (not (hasPrefix "ant-login" .chezmoi.hostname)) -}}
+
 #!/bin/bash
 
 set -eufo pipefail
 
 chsh -s /usr/bin/zsh
+
 {{ end -}}
