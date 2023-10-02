@@ -1,0 +1,56 @@
+format = "${custom.tab}${custom.dvtm}$all"
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[golang]
+symbol = " "
+
+[python]
+symbol = " "
+
+[git_branch]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[username]
+show_always = true
+format = "[$user]($style) "
+
+[hostname]
+ssh_only = false
+format = "@ [$hostname]($style) "
+
+[directory]
+format = "in [$path]($style)[$read_only]($read_only_style) "
+read_only = " "
+
+[custom]
+
+[custom.tab]
+description = "The current tab in the tab terminal multiplexer"
+command = "tab --starship | sed 's/^tab//g'"
+when = "tab --starship"
+shell = ["sh"]
+symbol = "裡"
+format = "[$symbol$output]($style) "
+style = "bold blue"
+
+[custom.dvtm]
+when = "[ ! -z $DVTM ]"
+symbol = "缾"
+shell = ["sh"]
+format = "[$symbol]($style)"
+style = "bold red"
+
+[custom.mtm]
+when = "[ ! -z $MTM ]"
+symbol = "缾"
+shell = ["sh"]
+format = "[$symbol]($style)"
+style = "bold red"
