@@ -1,3 +1,4 @@
+{{- if lookPath "wezterm" -}}
 local wezterm = require 'wezterm'
 local mux = wezterm.mux
 local config = {}
@@ -33,3 +34,4 @@ window_frame = {
 }
 
 return config
+{{- end }}
