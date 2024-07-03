@@ -1,0 +1,35 @@
+local wezterm = require 'wezterm'
+local mux = wezterm.mux
+local config = {}
+
+if wezterm.config_builder then
+   config = wezterm.config_builder()
+end
+
+-- Apply config
+config.color_scheme = 'Afterglow'
+config.font = wezterm.font(
+   'JetBrainsMono Nerd Font',
+   { stretch = 'Normal', weight = 'Medium' }
+)
+config.font_size = 14.0
+config.window_decorations = "RESIZE"
+config.hide_tab_bar_if_only_one_tab = true
+
+config.keys = {
+   -- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
+   {key="LeftArrow", mods="OPT", action=wezterm.action{SendString="\x1bb"}},
+   -- Make Option-Right equivalent to Alt-f; forward-word
+   {key="RightArrow", mods="OPT", action=wezterm.action{SendString="\x1bf"}},
+}
+
+config.inactive_pane_hsb = {
+   saturation = 0.8,
+   brightness = 0.7
+}
+
+window_frame = {
+   font = wezterm.font { family = 'Noto Sans', weight = 'Regular' },
+}
+
+return config
