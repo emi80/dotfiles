@@ -25,7 +25,7 @@ export PATH={{ toStrings $paths | join ":" }}:$PATH
 {{- end }}
 
 {{ if stat "/opt/homebrew/bin/brew" -}}
+export HOMEBREW_NO_AUTO_UPDATE=1
 fpath+=("{{ output "/opt/homebrew/bin/brew" "--prefix" | trim }}/share/zsh/site-functions")
-
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end -}}
