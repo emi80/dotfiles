@@ -23,3 +23,9 @@ export PATH={{ $brewPythonPath }}:$PATH
 {{- if $paths }}
 export PATH={{ toStrings $paths | join ":" }}:$PATH
 {{- end }}
+
+{{ if stat "/opt/homebrew/bin/brew" -}}
+fpath+=("{{ output "/opt/homebrew/bin/brew" "--prefix" | trim }}/share/zsh/site-functions")
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{ end -}}
