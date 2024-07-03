@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $brews := list
+     "direnv"
+     "emacs"
+     "fd"
+     "git"
+     "gnupg"
+     "jq"
+     "pinentry-mac"
+     "pkg-config"
+     "ripgrep"
+     "starship"
+     "tmux" -}}
+{{ $casks := list
+     "balenaetcher"
+     "battery"
+     "docker"
+     "languagetool"
+     "google-chrome"
+     "microsoft-remote-desktop"
+     "slack"
+     "telegram"
+     "visual-studio-code"
+     "wezterm"
+     "whatsapp"
+     "zoom" -}}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+EOF
