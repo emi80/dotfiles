@@ -1,4 +1,4 @@
-{{ if contains "login" .chezmoi.hostname -}}
+{{ if not (contains "login" .chezmoi.hostname) -}}
 
 #!/bin/bash
 
