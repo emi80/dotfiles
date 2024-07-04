@@ -22,7 +22,10 @@
 (load custom-file 'noerror)
 
 ;; Create backup and autosave files in specific directory
-(setq backup-directory-alist `(("." . "~/.saves")))
+(setq backup-directory-alist
+      `(("." . "~/.saves")))
+(setq auto-save-file-name-transforms
+      `((".*" "~/.saves/" t)))
 
 ;; Use y or n to confirm prompts
 (defalias 'yes-or-no-p 'y-or-n-p)
