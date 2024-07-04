@@ -1,0 +1,120 @@
+;; .emacs.d/init.el
+
+;; ===================================
+;; MELPA Package Support
+;; ===================================
+;; Enables basic packaging support
+(require 'package)
+
+;; Adds the Melpa archive to the list of available repositories
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+
+;; Initializes the package infrastructure
+(package-initialize)
+
+;; If there are no archived package contents, refresh them
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+;; Any Customize-based settings should live in custom.el, not here.
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)
+
+;; Create backup and autosave files in specific directory
+(setq backup-directory-alist `(("." . "~/.saves")))
+
+;; Use y or n to confirm prompts
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Delete on insert in selection
+(delete-selection-mode +1)
+
+;; Installs packages
+;;
+;; myPackages contains a list of package names
+(defvar pkgs
+  '(better-defaults                 ;; Set up some better Emacs defaults
+    ;;eat
+    edit-indirect                  
+    elpy			    ;; Emacs Lisp Python Environment
+    groovy-mode
+    lua-mode                       
+    magit			    ;; git support
+    markdown-mode
+    material-theme                  ;; Theme
+    mood-line
+    move-text
+    multiple-cursors               
+    neotree
+    terraform-mode                 
+    yaml-mode                      
+    )
+  )
+
+;; Scans the list in myPackages
+;; If the package listed is not already installed, install it
+(mapc #'(lambda (package)
+          (unless (package-installed-p package)
+	    (package-refresh-contents)
+	    (package-install package)))
+      pkgs)
+
+;; ===================================
+;; Basic Customization
+;; ===================================
+(require 'use-package)
+
+(use-package move-text
+  :ensure t
+  :config
+  (move-text-default-bindings))
+
+(use-package mood-line
+  ;; Enable mood-line
+  :config
+  (mood-line-mode)
+  ;; Use pretty Fira Code-compatible glyphs
+  :custom
+  (mood-line-glyph-alist mood-line-glyphs-fira-code)
+  (mood-line-format mood-line-format-default-extended))
+
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+{{- if lookPath "multimarkdown" }}
+  :init (setq markdown-command "multimarkdown")
+{{- end }}
+  )
+
+(use-package neotree
+  :ensure t
+  :bind (("C-f" . neotree-toggle))
+  :defer) 
+
+(setq ns-pop-up-frames nil)
+(setq inhibit-startup-message t)           ;; Hide the startup message
+(load-theme 'material t)                   ;; Load material theme
+(global-display-line-numbers-mode t)       ;; Enable line numbers globally
+(menu-bar-mode 0)			   ;; Do not show menu bar
+(load-theme 'material t)		   ;; Load theme
+
+;; Update auto-mode list
+(add-to-list 'auto-mode-alist '("\\.nf\\'" . groovy-mode))
+
+;; ====================================
+;; Development Setup
+;; ====================================
+;; Enable elpy
+;;(elpy-enable)
+;;(setq elpy-rpc-python-command "/users/rg/epalumbo/.emacs.d/elpy/env/bin/python3")
+
+;; Load theme when running emacs as daemon
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+	      (lambda (frame)
+		(select-frame frame)
+                (load-theme 'material t)))
+  (load-theme 'material t))
+
+;; User-Defined init.el ends here
