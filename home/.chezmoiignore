@@ -13,5 +13,5 @@
 {{ end }}
 
 {{ if hasSuffix ".crg.es" .chezmoi.fqdnHostname }}
-.openfortivpn/**
+.openfortivpn
 {{ end }}
