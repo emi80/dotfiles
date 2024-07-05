@@ -7,7 +7,7 @@ brew "openfortivpn"
 EOF
 
 cat <<SUDOERS | sudo tee /etc/sudoers.d/openfortivpn
-Cmnd_Alias  OPENFORTIVPN = /opt/homebrew/opt/openfortivpn/bin/openfortivpn
+Cmnd_Alias  OPENFORTIVPN = /opt/homebrew/bin/openfortivpn
 
 %admin       ALL = (root) NOPASSWD: OPENFORTIVPN
 SUDOERS
