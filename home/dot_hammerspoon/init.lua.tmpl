@@ -1,0 +1,68 @@
+hs.grid.setGrid('12x12') -- allows us to place on quarters, thirds and halves
+hs.window.animationDuration = 0 -- disable animations
+
+local vpn = {
+   name = "openfortivpn",
+   status = "stopped",
+   cmd = "start",
+}
+
+function getStatus(exitCode, stdOut, stdErr)
+   local info = hs.json.decode(stdOut)[1]
+   if info["running"] then
+      vpn["status"] = "running"
+      vpn["cmd"] = "stop"
+   end
+end
+
+function getOutput(exitCode, stdOut, stdErr)
+   hs.notify.new({title="Hammerspoon", informativeText=stdOut}):send()
+end
+
+function toggleVPN()
+   local task = hs.task.new("/opt/homebrew/bin/brew", getStatus, {"services", "info", "--json", vpn["name"]})
+   task:start()
+   task:waitUntilExit()
+   hs.task.new("/opt/homebrew/bin/brew", getOutput, {"services", vpn["cmd"], vpn["name"]}):start()
+end
+
+function launchOrFocus(app)
+  return function()
+    hs.application.launchOrFocus(app)
+  end
+end
+
+local bindings = {
+   [{ "alt", "cmd" }] = {
+      ["v"] = toggleVPN
+   },
+
+   [{ "alt", "cmd", "ctrl" }] = {
+      ["b"] = launchOrFocus("Arc"),
+      ["w"] = launchOrFocus("WhatsApp"),
+      ["t"] = launchOrFocus("WezTerm"),
+      ["e"] = launchOrFocus("Microsoft Teams"),
+      ["s"] = launchOrFocus("Slack"),
+      ["m"] = launchOrFocus("Deezer"),
+   }
+}
+
+for modifier, keyActions in pairs(bindings) do
+  for key, action in pairs(keyActions) do
+    hs.hotkey.bind(modifier, tostring(key), action)
+  end
+end
+
+--
+-- Auto-reload config on change.
+--
+
+function reloadConfig(files)
+  for _, file in pairs(files) do
+    if file:sub(-4) == '.lua' then
+      hs.reload()
+    end
+  end
+end
+
+hs.pathwatcher.new(os.getenv('HOME') .. '/.hammerspoon/', reloadConfig):start()
