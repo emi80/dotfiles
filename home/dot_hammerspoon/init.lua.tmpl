@@ -1,29 +1,32 @@
 hs.grid.setGrid('12x12') -- allows us to place on quarters, thirds and halves
 hs.window.animationDuration = 0 -- disable animations
 
-local vpn = {
-   name = "openfortivpn",
-   status = "stopped",
-   cmd = "start",
-}
-
-function getStatus(exitCode, stdOut, stdErr)
-   local info = hs.json.decode(stdOut)[1]
-   if info["running"] then
-      vpn["status"] = "running"
-      vpn["cmd"] = "stop"
+function toggleService(serviceName)
+   return function(exitCode, stdOut, stdErr)
+      serviceCommand = "start"
+      serviceMsgSuffix = "ed"
+      local task = hs.task.new(
+	 "/opt/homebrew/bin/brew",
+	 function(exitCode, stdOut, stdErr)
+	    local info = hs.json.decode(stdOut)[1]
+	    if info["running"] then
+	       serviceCommand = "stop"
+	       serviceMsgSuffix = "ped"
+	    end
+	    hs.task.new(
+	       "/opt/homebrew/bin/brew",
+	       function(exitCode, stdOut, stdErr)
+		  msg = "Service '" .. serviceName .. "' " .. serviceCommand .. serviceMsgSuffix
+		  hs.notify.new({title="Hammerspoon", informativeText=msg}):send()
+	       end,
+	       {"services", serviceCommand, serviceName}
+	    ):start()
+	 end,
+	 {"services", "info", "--json", serviceName}
+      )
+      task:start()
+      task:waitUntilExit()
    end
-end
-
-function getOutput(exitCode, stdOut, stdErr)
-   hs.notify.new({title="Hammerspoon", informativeText=stdOut}):send()
-end
-
-function toggleVPN()
-   local task = hs.task.new("/opt/homebrew/bin/brew", getStatus, {"services", "info", "--json", vpn["name"]})
-   task:start()
-   task:waitUntilExit()
-   hs.task.new("/opt/homebrew/bin/brew", getOutput, {"services", vpn["cmd"], vpn["name"]}):start()
 end
 
 function launchOrFocus(app)
@@ -32,9 +35,13 @@ function launchOrFocus(app)
   end
 end
 
+--
+-- Key bindings.
+--
+
 local bindings = {
    [{ "alt", "cmd" }] = {
-      ["v"] = toggleVPN
+      ["v"] = toggleService("openfortivpn")
    },
 
    [{ "alt", "cmd", "ctrl" }] = {
@@ -44,7 +51,7 @@ local bindings = {
       ["e"] = launchOrFocus("Microsoft Teams"),
       ["s"] = launchOrFocus("Slack"),
       ["m"] = launchOrFocus("Deezer"),
-   }
+   },
 }
 
 for modifier, keyActions in pairs(bindings) do
