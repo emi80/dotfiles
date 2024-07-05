@@ -1,0 +1,49 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+brew "openfortivpn"
+EOF
+
+cat <<SUDOERS
+Cmnd_Alias  OPENFORTIVPN = /opt/homebrew/opt/openfortivpn/bin/openfortivpn
+
+%admin       ALL = (root) NOPASSWD: OPENFORTIVPN
+SUDOERS | sudo tee /etc/sudoers.d/openfortivpn)
+
+sudo cat <<SERVICE
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>KeepAlive</key>
+    <true/>
+    <key>Label</key>
+    <string>homebrew.mxcl.openfortivpn</string>
+    <key>LimitLoadToSessionType</key>
+    <array>
+      <string>Aqua</string>
+      <string>Background</string>
+      <string>LoginWindow</string>
+      <string>StandardIO</string>
+      <string>System</string>
+    </array>
+    <key>ProgramArguments</key>
+    <array>
+      <string>sudo</string>
+      <string>/opt/homebrew/opt/openfortivpn/bin/openfortivpn</string>
+      <string>-c</string>
+      <string>/Users/epalumbo/.openfortivpn/config</string>
+      <string>--pinentry</string>
+      <string>/opt/homebrew/bin/pinentry-mac</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/opt/homebrew/var/log/openfortivpn.log</string>
+    <key>StandardOutPath</key>
+    <string>/opt/homebrew/var/log/openfortivpn.log</string>
+  </dict>
+</plist>
+SERVICE | sudo tee /opt/homebrew/opt/openfortivpn/homebrew.mxcl.openfortivpn.plist)

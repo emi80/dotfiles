@@ -10,3 +10,7 @@
 {{ if ne .chezmoi.os "linux" }}
 .chezmoiscripts/linux/**
 {{ end }}
+
+{{ if suffix .hostname "crg.es" }}
+.openfortivpn
+{{ end }}
