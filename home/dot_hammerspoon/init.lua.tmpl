@@ -61,32 +61,42 @@ local grid = {
 -- Functions
 --
 
-function toggleService(serviceName)
+function getBrewServiceStatus(serviceName)
    return function()
-      serviceCommand = "start"
-      serviceMsgSuffix = "ed"
+      local status = {}
       local task = hs.task.new(
 	 "/opt/homebrew/bin/brew",
 	 function(exitCode, stdOut, stdErr)
-	    local info = hs.json.decode(stdOut)[1]
-	    if info["running"] then
-	       serviceCommand = "stop"
-	       serviceMsgSuffix = "ped"
+	    if exitCode == 0 then
+	       status = hs.json.decode(stdOut)[1]
 	    end
-	    hs.task.new(
-	       "/opt/homebrew/bin/brew",
-	       function(exitCode, stdOut, stdErr)
-		  msg = "Service '" .. serviceName .. "' " .. serviceCommand .. serviceMsgSuffix
-		  hs.notify.new({title="Hammerspoon", informativeText=msg}):send()
-		  setVpnDisplay(serviceCommand == "start")
-	       end,
-	       {"services", serviceCommand, serviceName}
-	    ):start()
 	 end,
 	 {"services", "info", "--json", serviceName}
       )
       task:start()
       task:waitUntilExit()
+      return status
+   end
+end
+
+function toggleService(serviceName)
+   return function()
+      serviceCommand = "start"
+      serviceMsgSuffix = "ed"
+      local status = getBrewServiceStatus(serviceName)()
+      if status["running"] then
+	 serviceCommand = "stop"
+	 serviceMsgSuffix = "ped"
+      end
+      hs.task.new(
+	 "/opt/homebrew/bin/brew",
+	 function(exitCode, stdOut, stdErr)
+	    msg = "Service '" .. serviceName .. "' " .. serviceCommand .. serviceMsgSuffix
+	    hs.notify.new({title="Hammerspoon", informativeText=msg}):send()
+	    setVpnDisplay(serviceCommand == "start")
+	 end,
+	 {"services", serviceCommand, serviceName}
+      ):start()
    end
 end
 
@@ -125,8 +135,9 @@ function setVpnDisplay(state)
 end
 
 if openfortivpn then
-    openfortivpn:setClickCallback(toggleService("openfortivpn"))
-    setVpnDisplay(false)
+   openfortivpn:setClickCallback(toggleService("openfortivpn"))
+   local status = getBrewServiceStatus('openfortivpn')()
+   setVpnDisplay(status["running"])
 end
 
 --
@@ -136,6 +147,7 @@ end
 local bindings = {
    [{ "alt", "cmd" }] = {
       v = toggleService("openfortivpn"),
+      t = getBrewServiceStatus("openfortivpn")
    },
 
    [{ "alt", "cmd", "ctrl" }] = {
