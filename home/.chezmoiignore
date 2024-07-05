@@ -11,6 +11,6 @@
 .chezmoiscripts/linux/**
 {{ end }}
 
-{{ if hasSuffix .hostname "crg.es" }}
+{{ if hasSuffix .chezmoi.fqdnHostname ".crg.es" }}
 .openfortivpn
 {{ end }}
