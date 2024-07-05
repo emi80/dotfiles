@@ -6,13 +6,13 @@ brew bundle --no-lock --file=/dev/stdin <<EOF
 brew "openfortivpn"
 EOF
 
-cat <<SUDOERS
+cat <<SUDOERS | sudo tee /etc/sudoers.d/openfortivpn
 Cmnd_Alias  OPENFORTIVPN = /opt/homebrew/opt/openfortivpn/bin/openfortivpn
 
 %admin       ALL = (root) NOPASSWD: OPENFORTIVPN
-SUDOERS | sudo tee /etc/sudoers.d/openfortivpn)
+SUDOERS
 
-sudo cat <<SERVICE
+cat <<SERVICE | sudo tee /opt/homebrew/opt/openfortivpn/homebrew.mxcl.openfortivpn.plist
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -46,4 +46,4 @@ sudo cat <<SERVICE
     <string>/opt/homebrew/var/log/openfortivpn.log</string>
   </dict>
 </plist>
-SERVICE | sudo tee /opt/homebrew/opt/openfortivpn/homebrew.mxcl.openfortivpn.plist)
+SERVICE
