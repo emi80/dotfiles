@@ -1,0 +1,35 @@
+runtime plugrc
+
+syntax on
+
+" Enable truecolor
+if (has('nvim'))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+endif
+
+if (has('termguicolors'))
+  set termguicolors
+endif
+
+" Backspace config
+set backspace=indent,eol,start
+
+" Set appearance
+set background=dark
+let g:material_terminal_italics = 1
+let g:material_theme_style = 'default'
+colorscheme material
+
+" Line numbers
+set number
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+
+" Setup persisten undo
+if has('persistent_undo')      "check if your vim version supports it
+  set undofile                 "turn on the feature
+  set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
+endif
