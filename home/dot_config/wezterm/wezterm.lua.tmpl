@@ -29,9 +29,11 @@ config.inactive_pane_hsb = {
    brightness = 0.7
 }
 
-window_frame = {
+config.window_frame = {
    font = wezterm.font { family = 'Noto Sans', weight = 'Regular' },
 }
+
+config.notification_handling = "SuppressFromFocusedWindow"
 
 return config
 {{- end }}
