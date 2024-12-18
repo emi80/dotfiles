@@ -3,31 +3,39 @@
 set -eufo pipefail
 
 {{ $brews := list
-   "direnv"
-   "emacs"
-   "fd"
-   "git"
-   "gnupg"
-   "jq"
-   "pinentry-mac"
-   "pkg-config"
-   "ripgrep"
-   "starship"
-   "tmux" -}}
+  "direnv"
+  "emacs"
+  "fd"
+  "git"
+  "gnupg"
+  "jq"
+  "neovim"
+  "pinentry-mac"
+  "pkg-config"
+  "ripgrep"
+  "starship"
+  "tmux"
+  "uv" -}}
+
 {{ $casks := list
-   "balenaetcher"
-   "battery"
-   "docker"
-   "languagetool"
-   "google-chrome"
-   "hammerspoon"
-   "microsoft-remote-desktop"
-   "slack"
-   "telegram"
-   "visual-studio-code"
-   "wezterm"
-   "whatsapp"
-   "zoom" -}}
+  "balenaetcher"
+  "battery"
+  "docker"
+  "ente-auth"
+  "languagetool"
+  "google-chrome"
+  "hammerspoon"
+  "keybase"
+  "macfuse"
+  "microsoft-remote-desktop"
+  "scroll-reverser"
+  "slack"
+  "telegram"
+  "visual-studio-code"
+  "wezterm"
+  "whatsapp"
+  "zoom" -}}
+
 
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
@@ -37,3 +45,5 @@ brew "{{ . }}"
 cask "{{ . }}"
 {{ end -}}
 EOF
+
+# vim: set filetype=bash :
