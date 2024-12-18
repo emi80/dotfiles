@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to true'
+
+hs -c 'setDesktopImage()' -t 10
