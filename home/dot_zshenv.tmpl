@@ -29,3 +29,5 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 fpath+=("{{ output "/opt/homebrew/bin/brew" "--prefix" | trim }}/share/zsh/site-functions")
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end -}}
+
+# vim: set filetype=zsh ts=4 et :

@@ -3,6 +3,13 @@ alias ll="ls -l"
 alias la="ls -la"
 alias lt="ls -ltr"
 
+# Alias vi(m) to neovim
+if command -v nvim >/dev/null
+then
+    alias vi=nvim
+    alias vim=nvim
+fi
+
 bindkey -e
 
 autoload -U up-line-or-beginning-search
@@ -19,3 +26,5 @@ eval "$(direnv hook zsh)"
 {{- if lookPath "starship" }}
 eval "$(starship init zsh)"
 {{- end }}
+
+# vim: set filetype=zsh ts=4 et :
