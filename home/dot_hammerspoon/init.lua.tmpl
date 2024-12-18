@@ -1,60 +1,62 @@
-hs.grid.setGrid('12x12') -- allows us to place on quarters, thirds and halves
+require("hs.ipc")
+
+hs.grid.setGrid("12x12") -- allows us to place on quarters, thirds and halves
 hs.window.animationDuration = 0 -- disable animations
 
 local grid = {
-  rightTopHalf = '6,0 6x6',
-  rightBottomHalf = '6,6 6x6',
+  rightTopHalf = "6,0 6x6",
+  rightBottomHalf = "6,6 6x6",
 
-  rightTopThird = '6,0 6x4',
-  rightMiddleThird = '6,4 6x4',
-  rightBottomThird = '6,8 6x4',
+  rightTopThird = "6,0 6x4",
+  rightMiddleThird = "6,4 6x4",
+  rightBottomThird = "6,8 6x4",
 
-  rightFirstQuarter = '6,0 6x3',
-  rightSecondQuarter = '6,3 6x3',
-  rightThirdQuarter = '6,6 6x3',
-  rightFourthQuarter = '6,9 6x3',
+  rightFirstQuarter = "6,0 6x3",
+  rightSecondQuarter = "6,3 6x3",
+  rightThirdQuarter = "6,6 6x3",
+  rightFourthQuarter = "6,9 6x3",
 
-  leftThird = '0,0 4x12',
-  leftTwoThirds = '0,0 8x12',
-  middleThird = '4,0 4x12',
-  rightThird = '8,0 4x12',
-  rightTwoThirds = '4,0 8x12',
+  leftThird = "0,0 4x12",
+  leftTwoThirds = "0,0 8x12",
+  middleThird = "4,0 4x12",
+  rightThird = "8,0 4x12",
+  rightTwoThirds = "4,0 8x12",
 
-  leftThirdTopHalf = '0,0 4x6',
-  leftTwoThirdsTopHalf = '0,0 8x6',
-  middleThirdTopHalf = '4,0 4x6',
-  rightThirdTopHalf = '8,0 4x6',
-  rightTwoThirdsTopHalf = '4,0 8x6',
+  leftThirdTopHalf = "0,0 4x6",
+  leftTwoThirdsTopHalf = "0,0 8x6",
+  middleThirdTopHalf = "4,0 4x6",
+  rightThirdTopHalf = "8,0 4x6",
+  rightTwoThirdsTopHalf = "4,0 8x6",
 
-  leftThirdBottomHalf = '0,6 4x6',
-  leftTwoThirdsBottomHalf = '0,6 8x6',
-  middleThirdBottomHalf = '4,6 4x6',
-  rightThirdBottomHalf = '8,6 4x6',
-  rightTwoThirdsBottomHalf = '4,6 8x6',
+  leftThirdBottomHalf = "0,6 4x6",
+  leftTwoThirdsBottomHalf = "0,6 8x6",
+  middleThirdBottomHalf = "4,6 4x6",
+  rightThirdBottomHalf = "8,6 4x6",
+  rightTwoThirdsBottomHalf = "4,6 8x6",
 
-  leftQuarter = '0,0 3x12',
-  middleHalf = '3,0 6x12',
-  rightQuarter = '9,0 3x12',
+  leftQuarter = "0,0 3x12",
+  middleHalf = "3,0 6x12",
+  rightQuarter = "9,0 3x12",
 
-  bottomHalf = '0,6 12x6',
-  leftHalf = '0,0 6x12',
-  rightHalf = '6,0 6x12',
-  topHalf = '0,0 12x6',
+  bottomHalf = "0,6 12x6",
+  leftHalf = "0,0 6x12",
+  rightHalf = "6,0 6x12",
+  topHalf = "0,0 12x6",
 
-  fullScreen = '0,0 12x12',
-  tenTwelfes = '1,1 10x10',
+  fullScreen = "0,0 12x12",
+  tenTwelfes = "1,1 10x10",
 
-  leftTopHalf = '0,0 6x6',
-  leftBottomHalf = '0,6 6x6',
+  leftTopHalf = "0,0 6x6",
+  leftBottomHalf = "0,6 6x6",
 
-  leftTopThird = '0,0 6x4',
-  leftMiddleThird = '0,4 6x4',
-  leftBottomThird = '0,8 6x4',
+  leftTopThird = "0,0 6x4",
+  leftMiddleThird = "0,4 6x4",
+  leftBottomThird = "0,8 6x4",
 
-  leftFirstQuarter = '0,0 6x3',
-  leftSecondQuarter = '0,3 6x3',
-  leftThirdQuarter = '0,6 6x3',
-  leftFourthQuarter = '0,9 6x3',
+  leftFirstQuarter = "0,0 6x3",
+  leftSecondQuarter = "0,3 6x3",
+  leftThirdQuarter = "0,6 6x3",
+  leftFourthQuarter = "0,9 6x3",
 }
 
 --
@@ -62,50 +64,44 @@ local grid = {
 --
 
 function getBrewServiceStatus(serviceName)
-   return function()
-      local status = {}
-      local task = hs.task.new(
-         "/opt/homebrew/bin/brew",
-         function(exitCode, stdOut, stdErr)
-            if exitCode == 0 then
-               status = hs.json.decode(stdOut)[1]
-            end
-         end,
-         {"services", "info", "--json", serviceName}
-      )
-      task:start()
-      task:waitUntilExit()
-      return status
-   end
+  return function()
+    local status = {}
+    local task = hs.task.new("/opt/homebrew/bin/brew", function(exitCode, stdOut, stdErr)
+      if exitCode == 0 then
+        status = hs.json.decode(stdOut)[1]
+      end
+    end, { "services", "info", "--json", serviceName })
+    task:start()
+    task:waitUntilExit()
+    return status
+  end
 end
 
 function toggleService(serviceName)
-   return function()
-      serviceCommand = "start"
-      serviceMsgSuffix = "ed"
-      local status = getBrewServiceStatus(serviceName)()
-      if status["running"] then
-	 serviceCommand = "stop"
-	 serviceMsgSuffix = "ped"
-      end
-      hs.task.new(
-	 "/opt/homebrew/bin/brew",
-	 function(exitCode, stdOut, stdErr)
-	    msg = "Service '" .. serviceName .. "' " .. serviceCommand .. serviceMsgSuffix
-	    hs.notify.new({title="Hammerspoon", informativeText=msg}):send()
-	    setVpnDisplay(serviceCommand == "start")
-	 end,
-	 {"services", serviceCommand, serviceName}
-      ):start()
-   end
+  return function()
+    serviceCommand = "start"
+    serviceMsgSuffix = "ed"
+    local status = getBrewServiceStatus(serviceName)()
+    if status["running"] then
+      serviceCommand = "stop"
+      serviceMsgSuffix = "ped"
+    end
+    hs.task
+      .new("/opt/homebrew/bin/brew", function(exitCode, stdOut, stdErr)
+        msg = "Service '" .. serviceName .. "' " .. serviceCommand .. serviceMsgSuffix
+        hs.notify.new({ title = "Hammerspoon", informativeText = msg }):send()
+        setVpnDisplay(serviceCommand == "start")
+      end, { "services", serviceCommand, serviceName })
+      :start()
+  end
 end
 
 function moveFrontmostWindow(where)
-   return function()
-      local window = hs.window.frontmostWindow()
-      local screen = window:screen()
-      hs.grid.set(window, where, screen)
-   end
+  return function()
+    local window = hs.window.frontmostWindow()
+    local screen = window:screen()
+    hs.grid.set(window, where, screen)
+  end
 end
 
 function moveFocusedWindowToScreen()
@@ -115,9 +111,9 @@ function moveFocusedWindowToScreen()
 end
 
 function launchOrFocus(app)
-   return function()
-      hs.application.launchOrFocus(app)
-   end
+  return function()
+    hs.application.launchOrFocus(app)
+  end
 end
 
 --
@@ -127,17 +123,31 @@ end
 openfortivpn = hs.menubar.new()
 
 function setVpnDisplay(state)
-   if state then
-      openfortivpn:setIcon("assets/vpn-on.svg")
-   else
-      openfortivpn:setIcon("assets/vpn-off.svg")
-   end
+  if state then
+    openfortivpn:setIcon("assets/vpn-on.svg")
+  else
+    openfortivpn:setIcon("assets/vpn-off.svg")
+  end
 end
 
 if openfortivpn then
-   openfortivpn:setClickCallback(toggleService("openfortivpn"))
-   local status = getBrewServiceStatus('openfortivpn')()
-   setVpnDisplay(status["running"])
+  openfortivpn:setClickCallback(toggleService("openfortivpn"))
+  local status = getBrewServiceStatus("openfortivpn")()
+  setVpnDisplay(status["running"])
+end
+
+function setDesktopImage()
+  local current = hs.spaces.focusedSpace()
+  local screens = hs.screen.allScreens()
+  for _, scr in pairs(screens) do
+    local spaces = hs.spaces.spacesForScreen(scr:id())
+    for _, s in pairs(spaces) do
+      hs.spaces.gotoSpace(s)
+      hs.timer.usleep(500000)
+      scr:desktopImageURL("file:///{{ .chezmoi.homeDir  }}/.bg.jpg")
+    end
+  end
+  hs.spaces.gotoSpace(current)
 end
 
 --
@@ -145,35 +155,35 @@ end
 --
 
 local bindings = {
-   [{ "alt", "cmd" }] = {
-      v = toggleService("openfortivpn"),
-      t = getBrewServiceStatus("openfortivpn")
-   },
+  [{ "alt", "cmd" }] = {
+    v = toggleService("openfortivpn"),
+    t = getBrewServiceStatus("openfortivpn"),
+  },
 
-   [{ "alt", "cmd", "ctrl" }] = {
-      b = launchOrFocus("Arc"),
-      c = launchOrFocus('Google Chrome'),
-      e = launchOrFocus("Microsoft Teams"),
-      f = launchOrFocus('Finder'),
-      l = launchOrFocus('Telegram'),
-      m = launchOrFocus("Amazon Music"),
-      s = launchOrFocus("Slack"),
-      t = launchOrFocus("WezTerm"),
-      v = launchOrFocus('Visual Studio Code'),
-      w = launchOrFocus("WhatsApp"),
-      y = launchOrFocus("System Preferences"),
-      z = launchOrFocus("zoom.us"),
-   },
+  [{ "alt", "cmd", "ctrl" }] = {
+    b = launchOrFocus("Arc"),
+    c = launchOrFocus("Google Chrome"),
+    e = launchOrFocus("Microsoft Teams"),
+    f = launchOrFocus("Finder"),
+    l = launchOrFocus("Telegram"),
+    m = launchOrFocus("Amazon Music"),
+    s = launchOrFocus("Slack"),
+    t = launchOrFocus("WezTerm"),
+    v = launchOrFocus("Visual Studio Code"),
+    w = launchOrFocus("WhatsApp"),
+    y = launchOrFocus("System Preferences"),
+    z = launchOrFocus("zoom.us"),
+  },
 
-   [{ "alt", "ctrl" }] = {
-      ["return"] = moveFrontmostWindow(grid.fullScreen),
-      ["space"] = moveFrontmostWindow(grid.tenTwelfes),
-      ['\\'] = moveFocusedWindowToScreen,
-      ['left'] = moveFrontmostWindow(grid.leftHalf),
-      ['right'] = moveFrontmostWindow(grid.rightHalf),
-      ['up'] = moveFrontmostWindow(grid.topHalf),
-      ['down'] = moveFrontmostWindow(grid.bottomHalf),
-   },
+  [{ "alt", "ctrl" }] = {
+    ["return"] = moveFrontmostWindow(grid.fullScreen),
+    ["space"] = moveFrontmostWindow(grid.tenTwelfes),
+    ["\\"] = moveFocusedWindowToScreen,
+    ["left"] = moveFrontmostWindow(grid.leftHalf),
+    ["right"] = moveFrontmostWindow(grid.rightHalf),
+    ["up"] = moveFrontmostWindow(grid.topHalf),
+    ["down"] = moveFrontmostWindow(grid.bottomHalf),
+  },
 }
 
 for modifier, keyActions in pairs(bindings) do
@@ -188,12 +198,12 @@ end
 
 function reloadConfig(files)
   for _, file in pairs(files) do
-    if file:sub(-4) == '.lua' then
+    if file:sub(-4) == ".lua" then
       hs.reload()
     end
   end
 end
 
-hs.pathwatcher.new(os.getenv('HOME') .. '/.hammerspoon/', reloadConfig):start()
+hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 
 -- vim: set filetype=lua :
